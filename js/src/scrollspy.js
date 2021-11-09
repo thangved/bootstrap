@@ -87,17 +87,9 @@ class ScrollSpy extends BaseComponent {
 
   // Public
   refresh() {
-    const autoMethod = this._scrollElement === this._scrollElement.window ?
-      METHOD_OFFSET :
-      METHOD_POSITION
-
-    const offsetMethod = this._config.method === 'auto' ?
-      autoMethod :
-      this._config.method
-
-    const offsetBase = offsetMethod === METHOD_POSITION ?
-      this._getScrollTop() :
-      0
+    const autoMethod = this._scrollElement === this._scrollElement.window ? METHOD_OFFSET : METHOD_POSITION
+    const offsetMethod = this._config.method === 'auto' ? autoMethod : this._config.method
+    const offsetBase = offsetMethod === METHOD_POSITION ? this._getScrollTop() : 0
 
     this._offsets = []
     this._targets = []
@@ -108,17 +100,15 @@ class ScrollSpy extends BaseComponent {
         const targetSelector = getSelectorFromElement(element)
         const target = targetSelector ? SelectorEngine.findOne(targetSelector) : null
 
-        if (target) {
-          const targetBCR = target.getBoundingClientRect()
-          if (targetBCR.width || targetBCR.height) {
-            return [
-              Manipulator[offsetMethod](target).top + offsetBase,
-              targetSelector
-            ]
-          }
+        if (!target) {
+          return
         }
 
-        return null
+        const targetBCR = target.getBoundingClientRect()
+
+        return targetBCR.width || targetBCR.height ?
+          [Manipulator[offsetMethod](target).top + offsetBase, targetSelector] :
+          null
       })
         .filter(item => item)
         .sort((a, b) => a[0] - b[0])
