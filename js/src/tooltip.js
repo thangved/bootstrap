@@ -263,7 +263,7 @@ class Tooltip extends BaseComponent {
       EventHandler.trigger(this._element, this.constructor.Event.SHOWN)
 
       if (prevHoverState) {
-        this._leave(null, this)
+        this._leave()
       }
     }
 
