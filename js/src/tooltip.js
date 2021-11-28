@@ -123,7 +123,7 @@ class Tooltip extends BaseComponent {
 
     // Private
     this._isEnabled = true
-    this._timeout = 0
+    this._timeout = null
     this._isHovered = false
     this._activeTrigger = {}
     this._popper = null
